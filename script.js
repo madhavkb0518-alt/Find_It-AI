@@ -253,68 +253,7 @@ initializeAuth();
 // SAMPLE ITEM DATA
 // ==========================================
 
-let items = [
-    {
-        id: 1,
-        name: "Black Wireless Earbuds",
-        category: "Electronics",
-        type: "lost",
-        location: "Atria College Library",
-        date: "2026-11-18",
-        description: "Black earbuds in a charging case.",
-        image: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=600"
-    },
-    {
-        id: 2,
-        name: "Blue Water Bottle",
-        category: "Other",
-        type: "found",
-        location: "Cubbon Park",
-        date: "2026-11-19",
-        description: "Blue reusable water bottle.",
-        image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=600"
-    },
-    {
-        id: 3,
-        name: "Brown Leather Wallet",
-        category: "Accessories",
-        type: "lost",
-        location: "Malleshwaram",
-        date: "2026-11-17",
-        description: "Brown wallet with personal cards.",
-        image: "https://images.unsplash.com/photo-1627123424574-724758594e93?w=600"
-    },
-    {
-        id: 4,
-        name: "Black Laptop Bag",
-        category: "Bags",
-        type: "found",
-        location: "Bengaluru Bus Stop",
-        date: "2026-11-16",
-        description: "Black laptop bag left behind.",
-        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600"
-    },
-    {
-        id: 5,
-        name: "Silver Smart Watch",
-        category: "Electronics",
-        type: "lost",
-        location: "College Canteen",
-        date: "2026-11-15",
-        description: "Silver smartwatch with a dark strap.",
-        image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600"
-    },
-    {
-        id: 6,
-        name: "Student ID Card",
-        category: "Documents",
-        type: "found",
-        location: "College Entrance",
-        date: "2026-11-14",
-        description: "Student identification card.",
-        image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600"
-    }
-];
+let items = [];
 
 let activeFilter = "all";
 
@@ -495,89 +434,169 @@ document.getElementById("itemImage")
 // SUBMIT REPORT
 // ==========================================
 
+
 document.getElementById("reportForm")
-    .addEventListener("submit", function(event) {
+    .addEventListener("submit", async function(event) {
 
-        event.preventDefault();
+    event.preventDefault();
 
-        const file = document.getElementById("itemImage").files[0];
+    if (!currentUser) {
+        alert("Please log in before submitting a report.");
+        closeModal();
+        openAuthModal();
+        return;
+    }
 
-        if (file && !file.type.startsWith("image/")) {
+    const file = document.getElementById("itemImage").files[0];
 
-            alert("Please select a valid image.");
+    // Validate image
+    if (file && !file.type.startsWith("image/")) {
+        alert("Please select a valid image.");
+        return;
+    }
 
-            return;
+    if (file && file.size > 5 * 1024 * 1024) {
+        alert("Please select an image smaller than 5 MB.");
+        return;
+    }
+
+    const submitButton = this.querySelector(
+        'button[type="submit"]'
+    );
+
+    if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Submitting...";
+    }
+
+    let imageURL = null;
+    let imagePath = null;
+
+    try {
+
+        // STEP 1: Upload image to Supabase Storage
+        if (file) {
+
+            const safeFileName = file.name.replace(
+                /[^a-zA-Z0-9._-]/g, "_"
+            );
+
+            imagePath = `${currentUser.id}/${Date.now()}-${safeFileName}`;
+
+            const { data: uploadData, error: uploadError } =
+                await supabaseClient.storage
+                    .from("item-images")
+                    .upload(imagePath, file, {
+                        contentType: file.type,
+                        upsert: false
+                    });
+
+            if (uploadError) {
+                throw uploadError;
+            }
+
+            // Get public image URL
+            const { data: publicData } =
+                supabaseClient.storage
+                    .from("item-images")
+                    .getPublicUrl(uploadData.path);
+
+            imageURL = publicData.publicUrl;
         }
 
-        if (file && file.size > 5 * 1024 * 1024) {
-
-            alert("Please select an image smaller than 5 MB.");
-
-            return;
-        }
-
+        // STEP 2: Prepare database report
         const newItem = {
 
-            id: Date.now(),
+            user_id: currentUser.id,
 
-            name: document.getElementById("itemName").value.trim(),
+            item_name: document.getElementById("itemName").value.trim(),
 
             category: document.getElementById("itemCategory").value,
 
-            type: document.getElementById("reportType").value,
-
-            location: document.getElementById("itemLocation").value.trim(),
-
-            date: document.getElementById("itemDate").value,
+            item_type: document.getElementById("reportType").value,
 
             description: document.getElementById("itemDescription").value.trim(),
 
-            image: ""
+            location: document.getElementById("itemLocation").value.trim(),
+
+            item_date: document.getElementById("itemDate").value || null,
+
+            image_url: imageURL,
+
+            status: "active"
         };
 
-        const addItem = () => {
+        // STEP 3: Save report in Supabase database
+        const { data, error } = await supabaseClient
+            .from("items")
+            .insert([newItem])
+            .select()
+            .single();
 
-            items.unshift(newItem);
-
-            displayItems();
-
-            updateStats();
-
-            this.reset();
-
-            document.getElementById("imagePreview").style.display = "none";
-
-            closeModal();
-
-            document.getElementById("items")
-                .scrollIntoView({ behavior: "smooth" });
-
-            alert("Your report has been added successfully!");
-        };
-
-        if (file) {
-
-            const reader = new FileReader();
-
-            reader.onload = function() {
-
-                newItem.image = reader.result;
-
-                addItem();
-            };
-
-            reader.onerror = () => {
-
-                alert("Could not read the image.");
-            };
-
-            reader.readAsDataURL(file);
-
-        } else {
-
-            addItem();
+        if (error) {
+            throw error;
         }
-    });
+
+        // STEP 4: Update website display
+        const savedItem = {
+
+            id: data.id,
+
+            name: data.item_name,
+
+            category: data.category,
+
+            type: data.item_type,
+
+            location: data.location,
+
+            date: data.item_date || "",
+
+            description: data.description,
+
+            image: data.image_url || ""
+        };
+
+        items.unshift(savedItem);
+
+        displayItems();
+        updateStats();
+
+        // STEP 5: Reset form
+        this.reset();
+
+        document.getElementById("imagePreview").style.display = "none";
+
+        closeModal();
+
+        document.getElementById("items")
+            .scrollIntoView({ behavior: "smooth" });
+
+        alert("Your report and image have been saved successfully!");
+
+    } catch (error) {
+
+        console.error("Report submission error:", error);
+
+        // Remove uploaded image if database save failed
+        if (imagePath) {
+            await supabaseClient.storage
+                .from("item-images")
+                .remove([imagePath]);
+        }
+
+        alert("Could not submit report: " + error.message);
+
+    } finally {
+
+        if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = "Submit Report";
+        }
+    }
+
+});
+
 
 
 // ==========================================
@@ -621,9 +640,35 @@ function updateStats() {
 // INITIALIZE WEBSITE
 // ==========================================
 
-displayItems();
+async function loadItemsFromSupabase() {
+    const { data, error } = await supabaseClient
+        .from("items")
+        .select("*")
+        .eq("status", "active")
+        .order("created_at", { ascending: false });
 
-updateStats();
+    if (error) {
+        console.error("Error loading items:", error);
+        alert("Unable to load reports. Please refresh the page.");
+        return;
+    }
+
+    items = data.map(row => ({
+        id: row.id,
+        name: row.item_name,
+        category: row.category,
+        type: row.item_type,
+        location: row.location,
+        date: row.item_date || "",
+        description: row.description,
+        image: row.image_url || ""
+    }));
+
+    displayItems();
+    updateStats();
+}
+
+loadItemsFromSupabase();
 
 // OPEN RESET PASSWORD MODAL
 function openResetPasswordModal() {
