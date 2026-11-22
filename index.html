@@ -252,6 +252,45 @@
     </div>
 </div>
 
+<!-- RESET PASSWORD MODAL -->
+<div class="modal" id="resetPasswordModal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeResetPasswordModal()">×</button>
+
+        <h2>Reset Your Password</h2>
+        <p class="modal-subtitle">
+            Enter your new password below.
+        </p>
+
+        <form id="resetPasswordForm" onsubmit="updatePassword(event)">
+
+            <label>New Password</label>
+            <input
+                type="password"
+                id="newPassword"
+                placeholder="Enter new password"
+                minlength="6"
+                required
+            >
+
+            <label>Confirm New Password</label>
+            <input
+                type="password"
+                id="confirmNewPassword"
+                placeholder="Confirm your password"
+                minlength="6"
+                required
+            >
+
+            <button type="submit" class="primary-btn submit-btn">
+                Update Password
+            </button>
+
+            <p id="resetPasswordMessage"></p>
+        </form>
+    </div>
+</div>
+
 <footer>
     <h2>FindIt<span>AI.</span></h2>
     <p>Helping lost belongings find their way home.</p>

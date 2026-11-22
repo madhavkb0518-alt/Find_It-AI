@@ -206,10 +206,17 @@ document.getElementById("authForm").addEventListener("submit", async function(ev
 });
 
 // Listen for login/logout changes
+
 supabaseClient.auth.onAuthStateChange((event, session) => {
     currentUser = session?.user || null;
 
     updateAuthButton();
+
+    // Detect password recovery link
+    if (event === "PASSWORD_RECOVERY") {
+        openResetPasswordModal();
+        return;
+    }
 
     if (event === "SIGNED_IN" && currentUser) {
         closeAuthModal();
@@ -221,6 +228,7 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
         }
     }
 });
+
 
 // Logout
 async function logoutUser() {
@@ -616,3 +624,53 @@ function updateStats() {
 displayItems();
 
 updateStats();
+
+// OPEN RESET PASSWORD MODAL
+function openResetPasswordModal() {
+    document.getElementById("resetPasswordModal").classList.add("show");
+}
+
+// CLOSE RESET PASSWORD MODAL
+function closeResetPasswordModal() {
+    document.getElementById("resetPasswordModal").classList.remove("show");
+}
+
+// UPDATE PASSWORD
+async function updatePassword(event) {
+    event.preventDefault();
+
+    const newPassword = document.getElementById("newPassword").value;
+    const confirmPassword = document.getElementById("confirmNewPassword").value;
+    const message = document.getElementById("resetPasswordMessage");
+
+    if (newPassword !== confirmPassword) {
+        message.textContent = "Passwords do not match!";
+        message.style.color = "red";
+        return;
+    }
+
+    message.textContent = "Updating password...";
+    message.style.color = "#2563eb";
+
+    const { error } = await supabaseClient.auth.updateUser({
+        password: newPassword
+    });
+
+    if (error) {
+        message.textContent = error.message;
+        message.style.color = "red";
+        return;
+    }
+
+    message.textContent = "Password updated successfully! Please log in again.";
+    message.style.color = "green";
+
+    document.getElementById("resetPasswordForm").reset();
+
+    setTimeout(() => {
+        closeResetPasswordModal();
+        closeAuthModal();
+        supabaseClient.auth.signOut();
+        openAuthModal("login");
+    }, 2000);
+}
