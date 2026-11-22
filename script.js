@@ -63,6 +63,34 @@ function closeAuthModal() {
     document.getElementById("authMessage").textContent = "";
 }
 
+async function sendPasswordReset() {
+    const email = document.getElementById("authEmail").value.trim();
+    const message = document.getElementById("authMessage");
+
+    if (!email) {
+        message.textContent = "Please enter your registered email first.";
+        message.style.color = "red";
+        document.getElementById("authEmail").focus();
+        return;
+    }
+
+    message.textContent = "Sending password reset email...";
+    message.style.color = "#2563eb";
+
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+        redirectTo: "https://find-it-ai-lac.vercel.app"
+    });
+
+    if (error) {
+        message.textContent = error.message;
+        message.style.color = "red";
+    } else {
+        message.textContent = "Password reset link sent! Check your email inbox.";
+        message.style.color = "green";
+    }
+}
+
+
 // Change between signup and login
 function switchAuthMode() {
     authMode = authMode === "signup" ? "login" : "signup";
