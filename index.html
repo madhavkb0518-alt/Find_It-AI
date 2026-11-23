@@ -10,18 +10,52 @@
 <body>
 
 <header>
-    <nav class="navbar">
-        <a href="#" class="logo">FindIt<span>AI.</span></a>
 
-        <div class="nav-links">
-            <a href="#home">Home</a>
-            <a href="#items">Browse Items</a>
-            <a href="#how">How It Works</a>
+<nav class="navbar">
+    <a href="#" class="logo">FindIt<span>AI.</span></a>
+
+
+<div class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#items">Browse Items</a>
+    <a href="#how">How It Works</a>
+    <a href="#why">Why FindIt AI</a>
+    <a href="#safety">Safety</a>
+    <a href="#my-reports" id="myReportsLink" style="display: none;">
+        My Reports
+    </a>
+    <a href="#contact">Contact</a>
+</div>
+
+
+    <div class="nav-actions">
+
+        <div id="notificationWrapper" style="display: none; position: relative;">
+
+            <button id="notificationButton"
+                onclick="toggleNotifications()">
+                🔔
+                <span id="notificationCount">0</span>
+            </button>
+
+            <div id="notificationPanel" style="display: none;">
+                <h3>Notifications</h3>
+
+                <div id="notificationList">
+                    <p>No notifications yet.</p>
+                </div>
+            </div>
+
         </div>
-<button class="nav-btn" id="authButton" onclick="openAuthModal('signup')">
-    Sign Up / Login
-</button>
-    </nav>
+
+        <button class="nav-btn" id="authButton"
+            onclick="openAuthModal('signup')">
+            Sign Up / Login
+        </button>
+
+    </div>
+</nav>
+
 </header>
 
 <main>
@@ -50,7 +84,12 @@
         </div>
 
         <div class="hero-visual">
-            <div class="hero-icon">🔎</div>
+            <button class="hero-icon"
+    type="button"
+    onclick="goToSearch()"
+    title="Search for lost and found items">
+    🔎
+</button>
             <h3>Every Item Has a Way Home.</h3>
             <p>Smart matching. Faster recovery.</p>
         </div>
@@ -76,34 +115,156 @@
         </div>
     </section>
 
-    <!-- HOW IT WORKS -->
-    <section class="how" id="how">
-        <div class="section-heading">
-            <span class="tag">SIMPLE PROCESS</span>
-            <h2>How FindIt AI Works</h2>
-            <p>Three simple steps to reconnect with your belongings.</p>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+
+    <div class="section-heading">
+        <span class="tag">SIMPLE PROCESS</span>
+        <h2>How FindIt AI Works</h2>
+        <p>Three simple steps to reconnect with your belongings.</p>
+    </div>
+
+    <div class="steps">
+
+        <article class="step"
+            onclick="openModal('lost')"
+            style="cursor: pointer;">
+
+            <div class="step-icon">📸</div>
+            <h3>01. Report an Item</h3>
+            <p>Share the details and image of your lost or found belonging.</p>
+
+        </article>
+
+        <article class="step"
+            onclick="goToMatches()"
+            style="cursor: pointer;">
+
+            <div class="step-icon">🤖</div>
+            <h3>02. Find Possible Matches</h3>
+            <p>Our matching system identifies potentially matching reports.</p>
+
+        </article>
+
+        <article class="step"
+            onclick="goToRecovery()"
+            style="cursor: pointer;">
+
+            <div class="step-icon">🤝</div>
+            <h3>03. Recover Your Item</h3>
+            <p>Submit an ownership claim and coordinate a safe return.</p>
+
+        </article>
+
+    </div>
+</section>
+
+<!-- WHY CHOOSE FINDIT AI -->
+<section class="why-choose" id="why">
+
+    <div class="section-heading">
+        <span class="tag">WHY FINDIT AI?</span>
+        <h2>More Than Just Lost & Found</h2>
+        <p>A smarter, simpler way to bring lost belongings back to their owners.</p>
+    </div>
+
+    <div class="why-grid">
+
+        <article class="why-card">
+            <div class="why-icon">🤖</div>
+            <h3>Smart Matching</h3>
+            <p>Our matching system compares item details to help identify potentially matching lost and found reports.</p>
+        </article>
+
+        <article class="why-card">
+            <div class="why-icon">⚡</div>
+            <h3>Easy Reporting</h3>
+            <p>Report a lost or found item by adding its details, location and an image in just a few steps.</p>
+        </article>
+
+        <article class="why-card">
+            <div class="why-icon">🔔</div>
+            <h3>Instant Notifications</h3>
+            <p>Stay informed about claim requests and important updates through your notifications.</p>
+        </article>
+
+        <article class="why-card">
+            <div class="why-icon">💬</div>
+            <h3>Private Communication</h3>
+            <p>Communicate with the other person through private messaging after a claim is approved.</p>
+        </article>
+
+    </div>
+
+</section>
+
+
+
+<!-- SAFETY & PRIVACY -->
+<section class="safety" id="safety">
+
+    <div class="section-heading">
+        <span class="tag">YOUR TRUST MATTERS</span>
+        <h2>Safety Comes First</h2>
+        <p>Recover your belongings while keeping your information protected.</p>
+    </div>
+
+    <div class="safety-content">
+
+        <div class="safety-card">
+            <div class="safety-icon">🔐</div>
+            <h3>Account-Based Access</h3>
+            <p>Users need an account to report items, submit claims and access their personal activity.</p>
         </div>
 
-        <div class="steps">
-            <article class="step">
-                <div class="step-icon">📸</div>
-                <h3>01. Report an Item</h3>
-                <p>Upload an image and provide details about your lost or found item.</p>
-            </article>
-
-            <article class="step">
-                <div class="step-icon">🤖</div>
-                <h3>02. AI Finds Matches</h3>
-                <p>Our matching system compares descriptions, images and locations.</p>
-            </article>
-
-            <article class="step">
-                <div class="step-icon">🤝</div>
-                <h3>03. Recover Your Item</h3>
-                <p>Review possible matches and safely submit an ownership claim.</p>
-            </article>
+        <div class="safety-card">
+            <div class="safety-icon">🛡️</div>
+            <h3>Ownership Verification</h3>
+            <p>Item owners can review incoming claims and approve or reject requests before communication begins.</p>
         </div>
-    </section>
+
+        <div class="safety-card">
+            <div class="safety-icon">💬</div>
+            <h3>Private Messaging</h3>
+            <p>Messaging is available to the people involved in an approved claim, helping them coordinate the return.</p>
+        </div>
+
+    </div>
+
+    <p class="safety-note">
+        Always verify item ownership carefully and arrange item returns in a safe public place.
+    </p>
+
+</section>
+
+
+<!-- CONTACT & SUPPORT -->
+<section class="contact" id="contact">
+
+    <div class="section-heading">
+        <span class="tag">WE'RE HERE TO HELP</span>
+        <h2>Need Help?</h2>
+        <p>Have questions about reporting an item, submitting a claim, or recovering your belongings?</p>
+    </div>
+
+    <div class="contact-content">
+        <div class="contact-icon">💬</div>
+
+        <h3>Let's Help You Reconnect</h3>
+
+        <p>
+            Explore reported items, check possible matches,
+            or sign in to manage your reports and claims.
+        </p>
+
+        <div class="contact-buttons">
+            <a href="#items" class="contact-btn">Browse Items</a>
+            <a href="#home" class="contact-btn secondary">Back to Home</a>
+        </div>
+    </div>
+
+</section>
 
     <!-- BROWSE ITEMS -->
     <section class="items-section" id="items">
@@ -139,6 +300,104 @@
             No matching items found.
         </p>
     </section>
+
+<!-- MY REPORTS SECTION -->
+<section class="items-section" id="my-reports" style="display: none;">
+
+    <div class="section-heading">
+        <span class="tag">YOUR ACTIVITY</span>
+        <h2>My Reports</h2>
+        <p>Manage the lost and found items you have reported.</p>
+    </div>
+
+    <div class="item-grid" id="myReportsGrid"></div>
+
+    <p class="empty-message" id="myReportsEmpty">
+        You haven't submitted any reports yet.
+    </p>
+
+</section>
+
+<!-- POSSIBLE MATCHES SECTION -->
+<section class="items-section" id="possible-matches"
+    style="display: none;">
+
+    <div class="section-heading">
+        <span class="tag">AI MATCHING</span>
+        <h2>Possible Matches</h2>
+        <p>FindIt AI has identified these potentially matching items.</p>
+    </div>
+
+    <div class="item-grid" id="matchesGrid"></div>
+
+    <p class="empty-message" id="matchesEmpty">
+        No possible matches found yet.
+    </p>
+
+</section>
+
+<!-- CLAIM REQUESTS SECTION -->
+<section class="items-section" id="claim-requests"
+    style="display: none;">
+
+    <div class="section-heading">
+        <span class="tag">OWNER DASHBOARD</span>
+        <h2>Claim Requests</h2>
+        <p>Review requests from people claiming your found items.</p>
+    </div>
+
+    <div class="item-grid" id="claimsGrid"></div>
+
+    <p class="empty-message" id="claimsEmpty">
+        You haven't received any claim requests yet.
+    </p>
+
+</section>
+
+<!-- PRIVATE CHAT SECTION -->
+<section class="items-section" id="private-chat"
+    style="display: none;">
+
+    <div class="section-heading">
+        <span class="tag">PRIVATE MESSAGING</span>
+        <h2>Chat with Item Owner</h2>
+        <p>Coordinate the safe return of your item.</p>
+    </div>
+
+    <div class="chat-container">
+
+        <label for="chatClaimSelect">
+            Select an approved claim
+        </label>
+
+        <select id="chatClaimSelect">
+            <option value="">Select a conversation</option>
+        </select>
+
+        <div class="chat-messages" id="chatMessages">
+            <p>Select an approved claim to start chatting.</p>
+        </div>
+
+        <form id="chatForm">
+
+            <input
+                type="text"
+                id="chatInput"
+                placeholder="Type your message..."
+                required
+            >
+
+            <button type="submit" class="primary-btn">
+                Send Message
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
 
     <!-- CALL TO ACTION -->
     <section class="cta">
@@ -291,11 +550,28 @@
     </div>
 </div>
 
-<footer>
+
+<footer class="footer">
+
     <h2>FindIt<span>AI.</span></h2>
+
     <p>Helping lost belongings find their way home.</p>
-    <p class="copyright">© 2026 FindIt AI. All rights reserved.</p>
+
+    <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#items">Browse Items</a>
+        <a href="#how">How It Works</a>
+        <a href="#why">Why FindIt AI</a>
+        <a href="#safety">Safety</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <p class="copyright">
+        © 2026 FindIt AI. All rights reserved.
+    </p>
+
 </footer>
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="script.js"></script>

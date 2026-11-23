@@ -221,24 +221,40 @@ button { cursor: pointer; }
     gap: 22px;
 }
 
+/* ==========================================
+   FINDIT AI - PREMIUM ITEM CARDS
+========================================== */
+
 .item-card {
-    background: white;
-    border-radius: 13px;
+    background: #ffffff;
+    border-radius: 16px;
     overflow: hidden;
-    border: 1px solid #ececf2;
-    transition: .3s;
+    border: 1px solid #e9e8f2;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.3s ease,
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
 }
 
 .item-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px #00000012;
+    transform: translateY(-7px);
+    box-shadow: 0 15px 35px rgba(91, 70, 180, 0.13);
+    border-color: #c9c1ef;
 }
 
 .item-image {
     width: 100%;
-    height: 190px;
+    height: 210px;
     object-fit: cover;
-    background: #e9e8f3;
+    background: #f0eff8;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.item-card:hover .item-image {
+    transform: scale(1.04);
 }
 
 .item-info { padding: 19px; }
@@ -478,4 +494,663 @@ footer p { color: #b6b5ca; margin-top: 12px; font-size: 14px; }
     #authModal .modal-content {
         padding: 24px 20px;
     }
+}
+
+/* ==========================================
+   FINDIT AI - PRIVATE CHAT STYLING
+========================================== */
+
+.chat-container {
+    max-width: 750px;
+    margin: 30px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+}
+
+.chat-container label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+#chatClaimSelect {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.chat-messages {
+    height: 350px;
+    overflow-y: auto;
+    padding: 18px;
+    background: #f5f7fb;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.chat-message {
+    margin: 12px 0;
+}
+
+.chat-message p {
+    display: inline-block;
+    max-width: 80%;
+    padding: 12px 16px;
+    background: #e4eaff;
+    border-radius: 14px;
+    overflow-wrap: anywhere;
+    margin: 5px 0;
+}
+
+.chat-message strong {
+    font-size: 12px;
+    color: #555;
+}
+
+.chat-message small {
+    display: block;
+    font-size: 10px;
+    color: #888;
+}
+
+#chatForm {
+    display: flex;
+    gap: 10px;
+}
+
+#chatInput {
+    flex: 1;
+    min-width: 0;
+    padding: 13px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+#chatForm button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .chat-container {
+        padding: 15px;
+    }
+
+    #chatForm {
+        flex-direction: column;
+    }
+
+    #chatForm button {
+        width: 100%;
+    }
+}
+
+/* Different chat bubbles for both users */
+
+.chat-message.my-message {
+    text-align: right;
+}
+
+.chat-message.my-message p {
+    background: #d7e7ff;
+    color: #173b70;
+    border-radius: 14px 14px 2px 14px;
+}
+
+.chat-message.other-message {
+    text-align: left;
+}
+
+.chat-message.other-message p {
+    background: #ffffff;
+    color: #333;
+    border: 1px solid #e5e5e5;
+    border-radius: 14px 14px 14px 2px;
+}
+
+/* ==========================================
+   FINDIT AI - ITEM CARD CONTENT
+========================================== */
+
+.item-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 10px;
+}
+
+.item-info h3 {
+    font-size: 19px;
+    font-weight: 700;
+    color: #24213b;
+    margin: 5px 0;
+    line-height: 1.4;
+}
+
+.item-info p {
+    font-size: 14px;
+    color: #666477;
+    line-height: 1.6;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.item-badge {
+    display: inline-block;
+    width: fit-content;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.lost-badge {
+    background: #fff0e8;
+    color: #d66b32;
+}
+
+.found-badge {
+    background: #e8f8ef;
+    color: #248653;
+}
+
+.item-info button {
+    margin-top: auto;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 9px;
+    background: #6250c8;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.item-info button:hover {
+    background: #4938a9;
+    transform: translateY(-2px);
+}
+
+/* ==========================================
+   FINDIT AI - RESPONSIVE ITEM GRID
+========================================== */
+
+/* Tablets */
+@media (max-width: 900px) {
+    .item-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 600px) {
+    .item-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .item-image {
+        height: 220px;
+    }
+
+    .item-info {
+        padding: 16px;
+    }
+}
+
+/* ==========================================
+   FINDIT AI - NOTIFICATION STYLING
+========================================== */
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#notificationButton {
+    position: relative;
+    background: #f1efff;
+    border: none;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    font-size: 19px;
+    cursor: pointer;
+    color: #6250c8;
+}
+
+#notificationButton:hover {
+    background: #e4dfff;
+}
+
+#notificationCount {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #e74c3c;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+}
+
+#notificationPanel {
+    position: absolute;
+    top: 52px;
+    right: 0;
+    width: 320px;
+    max-height: 380px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #e9e8f2;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    padding: 16px;
+    z-index: 1000;
+}
+
+#notificationPanel h3 {
+    color: #292344;
+    font-size: 17px;
+    margin-bottom: 14px;
+}
+
+.notification-item {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+    color: #555;
+}
+
+.notification-item.unread {
+    background: #f4f1ff;
+    border-radius: 8px;
+    color: #35266e;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 600px) {
+    #notificationPanel {
+        width: 280px;
+        right: -55px;
+    }
+}
+
+/* ==========================================
+   FINDIT AI - ITEM DETAILS POPUP
+========================================== */
+
+.item-details-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 18, 40, 0.65);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 9999;
+    overflow-y: auto;
+}
+
+.item-details-box {
+    position: relative;
+    background: white;
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 18px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    animation: detailsAppear 0.25s ease;
+}
+
+@keyframes detailsAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.item-details-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 50%;
+    background: white;
+    color: #292344;
+    font-size: 26px;
+    cursor: pointer;
+    z-index: 2;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+}
+
+.details-item-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+    background: #f0eff8;
+}
+
+.details-item-content {
+    padding: 25px;
+}
+
+.details-item-content h2 {
+    color: #24213b;
+    font-size: 25px;
+    margin: 14px 0;
+}
+
+.details-item-content > p {
+    color: #666477;
+    font-size: 14px;
+    margin: 12px 0;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.details-description {
+    background: #f6f5fc;
+    padding: 16px;
+    border-radius: 10px;
+    margin-top: 18px;
+    color: #292344;
+}
+
+.details-description p {
+    color: #666477;
+    line-height: 1.6;
+    margin-top: 8px;
+}
+
+.details-claim-button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 10px;
+    background: #6250c8;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.details-claim-button:hover {
+    background: #4938a9;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+    .item-details-overlay {
+        padding: 12px;
+    }
+
+    .details-item-image {
+        height: 190px;
+    }
+
+    .details-item-content {
+        padding: 18px;
+    }
+}
+
+/* WHY CHOOSE FINDIT AI */
+
+.why-choose {
+    padding: 80px 8%;
+    background: #f8fafc;
+}
+
+.why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    margin-top: 40px;
+}
+
+.why-card {
+    background: white;
+    padding: 30px 22px;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.why-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.why-icon {
+    font-size: 35px;
+    margin-bottom: 18px;
+}
+
+.why-card h3 {
+    margin-bottom: 12px;
+    font-size: 19px;
+}
+
+.why-card p {
+    color: #64748b;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 900px) {
+    .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 550px) {
+    .why-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* SAFETY & PRIVACY */
+
+.safety {
+    padding: 80px 8%;
+    background: #ffffff;
+}
+
+.safety-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 40px;
+}
+
+.safety-card {
+    padding: 30px;
+    background: #f8fafc;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    transition: transform 0.3s ease;
+}
+
+.safety-card:hover {
+    transform: translateY(-6px);
+}
+
+.safety-icon {
+    font-size: 36px;
+    margin-bottom: 18px;
+}
+
+.safety-card h3 {
+    margin-bottom: 12px;
+    font-size: 19px;
+}
+
+.safety-card p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.safety-note {
+    margin-top: 30px;
+    text-align: center;
+    color: #64748b;
+    font-size: 14px;
+}
+
+@media (max-width: 750px) {
+    .safety-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* CONTACT & SUPPORT */
+
+.contact {
+    padding: 80px 8%;
+    background: #f8fafc;
+}
+
+.contact-content {
+    max-width: 650px;
+    margin: 40px auto 0;
+    padding: 40px 30px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+}
+
+.contact-icon {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.contact-content h3 {
+    font-size: 22px;
+    margin-bottom: 12px;
+}
+
+.contact-content p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.contact-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+.contact-btn {
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.contact-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-3px);
+}
+
+.contact-btn.secondary {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.contact-btn.secondary:hover {
+    background: #cbd5e1;
+}
+
+@media (max-width: 550px) {
+    .contact-content {
+        padding: 30px 20px;
+    }
+}
+
+/* FOOTER */
+
+.footer {
+    padding: 45px 8% 25px;
+    background: #0f172a;
+    color: #ffffff;
+    text-align: center;
+}
+
+.footer h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.footer h2 span {
+    color: #60a5fa;
+}
+
+.footer > p {
+    color: #cbd5e1;
+    font-size: 14px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin: 28px 0;
+}
+
+.footer-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: #60a5fa;
+}
+
+.footer .copyright {
+    padding-top: 20px;
+    border-top: 1px solid #334155;
+    font-size: 13px;
 }
